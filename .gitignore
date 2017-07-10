@@ -1,0 +1,7 @@
+*.sqlite*
+*.pyc
+.idea
+.virtualenv
+static/
+media/
+__pycache__
