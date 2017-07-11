@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ page.title }}</title>
+</head>
+<body>
+    <ol>
+        {% for item in page.get_ancestors %}
+        <li><a href="{% url 'website:page' slug=item.full_slug %}">{{ item.title }}</a></li>
+        {% endfor %}
+        <li>{{ page.title }}</li>
+    </ol>
+
+    {% if page.children %}
+    <h6>Child Pages</h6>
+    <ul>
+        {% for child in page.get_children %}
+        <li><a href="{% url 'website:page' slug=child.full_slug %}">{{ child.title }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>

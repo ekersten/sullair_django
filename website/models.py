@@ -81,12 +81,19 @@ class Page(Taggable, Publishable, Profilable, TimeStampedModel, MPTTModel):
     name = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
     slug = models.CharField(max_length=255)
+    full_slug = models.CharField(max_length=255, editable=False)
     content = models.TextField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        super(Page, self).save(*args, **kwargs)
+        self.full_slug = '/'.join(self.get_ancestors(include_self=True).values_list('slug', flat=True))
+        super(Page, self).save(*args, **kwargs)
+
 
     class MPTTMeta:
         order_insertion_by = ['name']
