@@ -80,7 +80,7 @@ class Contact(TimeStampedModel):
 class Page(Taggable, Publishable, Profilable, TimeStampedModel, MPTTModel):
     name = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
-    slug = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255)
     full_slug = models.CharField(max_length=255, editable=False)
     content = models.TextField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
@@ -90,9 +90,18 @@ class Page(Taggable, Publishable, Profilable, TimeStampedModel, MPTTModel):
         return self.name
 
     def save(self, *args, **kwargs):
+        # save the object
         super(Page, self).save(*args, **kwargs)
+
+        # calculate full slug based on ancestors and own slug
         self.full_slug = '/'.join(self.get_ancestors(include_self=True).values_list('slug', flat=True))
+
+        # save new full slug
         super(Page, self).save(*args, **kwargs)
+
+        # update children
+        for child in self.get_children():
+            child.save()
 
 
     class MPTTMeta:
@@ -112,7 +121,7 @@ class ProductProperty(TimeStampedModel):
 
 class ProductCategory(Profilable, Publishable, Taggable, TimeStampedModel, MPTTModel):
     name = models.CharField(max_length=255)
-    slug = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
     properties = models.ManyToManyField(ProductProperty, blank=True)
 
@@ -128,7 +137,7 @@ class ProductCategory(Profilable, Publishable, Taggable, TimeStampedModel, MPTTM
 
 class Product(Profilable, Publishable, Taggable, TimeStampedModel):
     title = models.CharField(max_length=255)
-    slug = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255)
     sku = models.CharField(max_length=255)
     category = models.ForeignKey(ProductCategory)
     properties = models.ManyToManyField(
