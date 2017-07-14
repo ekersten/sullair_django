@@ -2,6 +2,6 @@
 *.pyc
 .idea
 .virtualenv
-static/
-media/
+/static/
+/media/
 __pycache__
