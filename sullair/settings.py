@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'mptt',
     'django_extensions',
+    'webpack_loader',
     'core',
     'tags',
     'website',
