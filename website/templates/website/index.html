@@ -25,9 +25,9 @@
 
             {% if page.children.count > 0 %}
             <h6>Child Pages</h6>
-            <ul>
+            <ul class="list-group">
                 {% for child in page.get_children %}
-                <li><a href="{% url 'website:page' slug=child.full_slug %}">{{ child.title }}</a></li>
+                <li class="list-group-item"><a href="{% url 'website:page' slug=child.full_slug %}">{{ child.title }}</a></li>
                 {% endfor %}
             </ul>
             {% endif %}
