@@ -1,0 +1,18 @@
+$mycolor: #09f;
+
+.mypanel {
+    background-color: $mycolor;
+    color: black;
+    border-radius: 2em;
+    padding: 30px;
+
+    .title {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .copy {
+        font-size: 12px;
+        color: dark-blue;
+    }
+}

@@ -31,12 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'mptt',
-    'django_extensions',
-    'webpack_loader',
-    'core',
-    'tags',
-    'website',
     'jet',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,6 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'mptt',
+    'django_extensions',
+    'djangobower',
+    'core',
+    'tags',
+    'website',
+    'compressor',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +75,13 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder',
+    'compressor.finders.CompressorFinder',
 ]
 
 WSGI_APPLICATION = 'sullair.wsgi.application'
@@ -135,9 +143,30 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
+
 INTERNAL_IPS = [
     '127.0.0.1'
 ]
 
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': lambda r: False,  # disables it
+    'SHOW_COLLAPSED': True
+}
+
+
 JET_DEFAULT_THEME = 'light-gray'
 JET_SIDE_MENU_COMPACT = True
+
+COMPRESS_ENABLED = True
+COMPRESS_OFFLINE = False
+COMPRESS_URL = STATIC_URL
+COMPRESS_PRECOMPILERS = (
+    ('text/x-scss', 'core.compressor_filters.PatchedSCSSCompiler'),
+)
+
+COMPRESS_CSS_FILTERS = (
+    'core.compressor_filters.CustomCssAbsoluteFilter',
+)
+
+BOWER_COMPONENTS_ROOT = BASE_DIR
+BOWER_INSTALLED_APPS = ['bootstrap-sass#3.3.6', 'jquery#3.2.1']
