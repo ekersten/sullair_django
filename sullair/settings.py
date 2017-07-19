@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'djangobower',
     'core',
     'tags',
+    'menus',
     'website',
     'compressor',
 ]

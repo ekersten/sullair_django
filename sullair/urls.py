@@ -20,7 +20,8 @@ from django.conf import settings
 urlpatterns = [
     url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
     url(r'^admin/', admin.site.urls),
-    url(r'', include('website.urls', namespace='website'))
+    url(r'^menus/', include('menus.urls', 'menus')),
+    url(r'', include('website.urls', 'website')),
 ]
 
 
