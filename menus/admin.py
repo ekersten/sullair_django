@@ -1,11 +1,28 @@
 from django.contrib import admin
-from django.contrib.contenttypes.admin import GenericTabularInline
-from menus.models import MenuItem
+from genericadmin.admin import GenericAdminModelAdmin
+from django.contrib.contenttypes.admin import GenericTabularInline, GenericStackedInline
+from menus.models import Menu, MenuItem
+from mptt.admin import DraggableMPTTAdmin
 
 
-# Register your models here.
-class MenuItemAdmin(admin.ModelAdmin):
-    class Media:
-        js = ('menus/js/menus-admin.js',)
+# admin.site.register(MenuItem, MenuItemAdmin)
 
+
+class MenuAdmin(admin.ModelAdmin):
+    fields = ['name', 'slug']
+    prepopulated_fields = {'slug': ['name',]}
+    list_display = ['name', 'slug']
+
+
+class MenuItemAdmin(DraggableMPTTAdmin):
+    related_lookup_fields = {
+        'generic': [
+            ['content_type', 'object_id']
+        ],
+    }
+    list_display = ['name', 'indented_title']
+    list_filter = ['menu__slug']
+
+
+admin.site.register(Menu, MenuAdmin)
 admin.site.register(MenuItem, MenuItemAdmin)

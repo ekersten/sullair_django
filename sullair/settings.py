@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'jet',
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'mptt',
     'django_extensions',
     'djangobower',
+    'genericadmin',
     'core',
     'tags',
     'menus',
@@ -154,9 +155,6 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_COLLAPSED': True
 }
 
-
-JET_DEFAULT_THEME = 'light-gray'
-JET_SIDE_MENU_COMPACT = True
 
 COMPRESS_ENABLED = True
 COMPRESS_OFFLINE = False
