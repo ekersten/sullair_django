@@ -50,6 +50,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django.middleware.gzip.GZipMiddleware',
+    'htmlmin.middleware.HtmlMinifyMiddleware',
+    'htmlmin.middleware.MarkRequestMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -169,3 +172,5 @@ COMPRESS_CSS_FILTERS = (
 
 BOWER_COMPONENTS_ROOT = BASE_DIR
 BOWER_INSTALLED_APPS = ['bootstrap-sass#3.3.6', 'jquery#>=1.9.1 <3.0']
+
+HTML_MINIFY = True
