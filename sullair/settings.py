@@ -168,4 +168,4 @@ COMPRESS_CSS_FILTERS = (
 )
 
 BOWER_COMPONENTS_ROOT = BASE_DIR
-BOWER_INSTALLED_APPS = ['bootstrap-sass#3.3.6', 'jquery#3.2.1']
+BOWER_INSTALLED_APPS = ['bootstrap-sass#3.3.6', 'jquery#>=1.9.1 <3.0']
