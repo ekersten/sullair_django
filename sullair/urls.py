@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.conf import settings
 
 urlpatterns = [
-    url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
+    url(r'^grappelli/', include('grappelli.urls')), # grappelli URLS
     url(r'^admin/', admin.site.urls),
     url(r'^menus/', include('menus.urls', 'menus')),
     url(r'', include('website.urls', 'website')),

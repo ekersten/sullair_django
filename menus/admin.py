@@ -1,11 +1,24 @@
 from django.contrib import admin
-from django.contrib.contenttypes.admin import GenericTabularInline
 from menus.models import MenuItem
+from mptt.admin import DraggableMPTTAdmin
+from mptt.admin import TreeRelatedFieldListFilter
 
 
-# Register your models here.
-class MenuItemAdmin(admin.ModelAdmin):
-    class Media:
-        js = ('menus/js/menus-admin.js',)
+class MenuItemAdmin(DraggableMPTTAdmin):
+    related_lookup_fields = {
+        'generic': [
+            ['content_type', 'object_id']
+        ],
+    }
+    list_display = (
+        'tree_actions',
+        'indented_title',
+        'slug',
+        'is_root'
+    )
+    list_filter = (
+        ('parent', TreeRelatedFieldListFilter),
+    )
+
 
 admin.site.register(MenuItem, MenuItemAdmin)
