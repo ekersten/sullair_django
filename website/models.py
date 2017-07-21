@@ -1,5 +1,6 @@
 from django.db import models
 from model_utils.models import TimeStampedModel
+from django.shortcuts import reverse
 
 from mptt.models import MPTTModel, TreeForeignKey
 
@@ -86,6 +87,9 @@ class Page(Taggable, Publishable, Profilable, TimeStampedModel, MPTTModel):
     description = models.TextField(null=True, blank=True)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
 
+    class MPTTMeta:
+        order_insertion_by = ['name']
+
     def __str__(self):
         return self.name
 
@@ -103,9 +107,17 @@ class Page(Taggable, Publishable, Profilable, TimeStampedModel, MPTTModel):
         for child in self.get_children():
             child.save()
 
+    @property
+    def my_url(self):
+        return self.get_absolute_url()
 
-    class MPTTMeta:
-        order_insertion_by = ['name']
+
+    def get_absolute_url(self):
+        print('call get_absolute_url for {0}'.format(self.full_slug))
+        return '/{0}'.format(self.full_slug)
+
+
+
 
 
 class ProductProperty(TimeStampedModel):
@@ -122,17 +134,41 @@ class ProductProperty(TimeStampedModel):
 class ProductCategory(Profilable, Publishable, Taggable, TimeStampedModel, MPTTModel):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
+    full_slug = models.CharField(max_length=255, editable=False)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
     properties = models.ManyToManyField(ProductProperty, blank=True)
-
-    def __str__(self):
-        return self.name
 
     class MPTTMeta:
         order_insertion_by = ['name']
 
     class Meta:
         verbose_name_plural = 'product categories'
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def my_url(self):
+        return self.get_absolute_url()
+
+
+    def get_absolute_url(self):
+        print('call get_absolute_url for {0}'.format(self.full_slug))
+        return reverse('website:product_category', kwargs={'slug': self.full_slug})
+
+    def save(self, *args, **kwargs):
+        # save the object
+        super(ProductCategory, self).save(*args, **kwargs)
+
+        # calculate full slug based on ancestors and own slug
+        self.full_slug = '/'.join(self.get_ancestors(include_self=True).values_list('slug', flat=True))
+
+        # save new full slug
+        super(ProductCategory, self).save(*args, **kwargs)
+
+        # update children
+        for child in self.get_children():
+            child.save()
 
 
 class Product(Profilable, Publishable, Taggable, TimeStampedModel):

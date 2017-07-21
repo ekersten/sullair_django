@@ -1,0 +1,62 @@
+{% load static %}
+{% load compress %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sullair - {{ page.title }}</title>
+    <!-- Latest compiled and minified CSS -->
+    {% compress css %}
+    <link rel="stylesheet" type="text/x-scss" href="{% static 'bootstrap-sass/assets/stylesheets/_bootstrap.scss' %}">
+    <link rel="stylesheet" type="text/x-scss" href="{% static 'website/scss/sullair.scss' %}">
+    <link rel="stylesheet" type="text/x-scss" href="{% static 'website/scss/page.scss' %}">
+    {% endcompress %}
+
+
+</head>
+<body>
+    {% include "website/includes/main_menu.html" %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>{{ page.title }}</h1>
+
+                <ol class="breadcrumb">
+                    {% for item in page.get_ancestors %}
+                    <li><a href="{% url 'website:page' slug=item.full_slug %}">{{ item.title }}</a></li>
+                    {% endfor %}
+                    <li class="active">{{ page.title }}</li>
+                </ol>
+
+                {% if page.children.count > 0 %}
+                <h6>Child Pages</h6>
+                <ul class="list-group">
+                    {% for child in page.get_children %}
+                    <li class="list-group-item"><a href="{% url 'website:page' slug=child.full_slug %}">{{ child.title }}</a></li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="mypanel">
+                    <div class="title">Custom CSS</div>
+                    <div class="copy">El css de este panel es custom!!!</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- compressed content start -->
+    {% compress js %}
+    <script type="text/javascript" src="{% static 'jquery/dist/jquery.js' %}"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script type="text/javascript" src="{% static 'bootstrap-sass/assets/javascripts/bootstrap.js' %}"></script>
+    {% endcompress %}
+    <!-- compressed content end -->
+</body>
+</html>
