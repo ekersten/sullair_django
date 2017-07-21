@@ -1,17 +1,7 @@
 from django.contrib import admin
-from genericadmin.admin import GenericAdminModelAdmin
-from django.contrib.contenttypes.admin import GenericTabularInline, GenericStackedInline
-from menus.models import Menu, MenuItem
+from menus.models import MenuItem
 from mptt.admin import DraggableMPTTAdmin
-
-
-# admin.site.register(MenuItem, MenuItemAdmin)
-
-
-class MenuAdmin(admin.ModelAdmin):
-    fields = ['name', 'slug']
-    prepopulated_fields = {'slug': ['name',]}
-    list_display = ['name', 'slug']
+from mptt.admin import TreeRelatedFieldListFilter
 
 
 class MenuItemAdmin(DraggableMPTTAdmin):
@@ -20,9 +10,15 @@ class MenuItemAdmin(DraggableMPTTAdmin):
             ['content_type', 'object_id']
         ],
     }
-    list_display = ['name', 'indented_title']
-    list_filter = ['menu__slug']
+    list_display = (
+        'tree_actions',
+        'indented_title',
+        'slug',
+        'is_root'
+    )
+    list_filter = (
+        ('parent', TreeRelatedFieldListFilter),
+    )
 
 
-admin.site.register(Menu, MenuAdmin)
 admin.site.register(MenuItem, MenuItemAdmin)

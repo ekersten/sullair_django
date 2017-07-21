@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'mptt',
     'django_extensions',
     'djangobower',
-    'genericadmin',
     'core',
     'tags',
     'menus',
