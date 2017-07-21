@@ -27,3 +27,9 @@ class MenuItem(TimeStampedModel, MPTTModel):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        if self.content_object is not None:
+            return self.content_object.get_absolute_url()
+        elif self.url:
+            return self.url
