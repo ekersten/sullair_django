@@ -16,7 +16,8 @@
 
             {% if item.image %}
             <div class="col-xs-12">
-                <img src="{% version item.image 'large' %}" alt="{{ item.name }}">
+                <img src="{% version item.image 'small' %}" alt="{{ item.name }}">
+                <img src="{{ item.image.url }}" alt="{{ item.name }}" class="img-responsive">
             </div>
             {% endif %}
         </div>
