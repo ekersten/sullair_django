@@ -1,37 +1,25 @@
+{% extends 'website/master/index.html' %}
+
 {% load static %}
 {% load compress %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sullair - {{ item.name }}</title>
-    <!-- Latest compiled and minified CSS -->
-    {% compress css %}
-    <link rel="stylesheet" type="text/x-scss" href="{% static 'bootstrap-sass/assets/stylesheets/_bootstrap.scss' %}">
-    <link rel="stylesheet" type="text/x-scss" href="{% static 'website/scss/sullair.scss' %}">
-    <link rel="stylesheet" type="text/x-scss" href="{% static 'website/scss/page.scss' %}">
-    {% endcompress %}
+{% load fb_versions %}
+
+{% block title %}{{ item.name }}{% endblock %}
 
 
-</head>
-<body>
-    {% include "website/includes/main_menu.html" %}
+{% block content %}
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
                 <h1>{{ item.name }}</h1>
             </div>
+
+            {% if item.image %}
+            <div class="col-xs-12">
+                <img src="{% version item.image 'large' %}" alt="{{ item.name }}">
+            </div>
+            {% endif %}
         </div>
 
     </div>
-    <!-- compressed content start -->
-    {% compress js %}
-    <script type="text/javascript" src="{% static 'jquery/dist/jquery.js' %}"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script type="text/javascript" src="{% static 'bootstrap-sass/assets/javascripts/bootstrap.js' %}"></script>
-    {% endcompress %}
-    <!-- compressed content end -->
-</body>
-</html>
+{% endblock %}

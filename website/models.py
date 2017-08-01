@@ -4,6 +4,8 @@ from django.shortcuts import reverse
 
 from mptt.models import MPTTModel, TreeForeignKey
 
+from filebrowser.fields import FileBrowseField
+
 from core.models import Sortable, City, Profilable, Publishable
 from tags.models import Taggable
 
@@ -134,6 +136,7 @@ class ProductProperty(TimeStampedModel):
 class ProductCategory(Profilable, Publishable, Taggable, TimeStampedModel, MPTTModel):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
+    image = FileBrowseField("Image", max_length=200, directory="images/", extensions=[".jpg"], blank=True, null=True)
     full_slug = models.CharField(max_length=255, editable=False)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
     properties = models.ManyToManyField(ProductProperty, blank=True)
