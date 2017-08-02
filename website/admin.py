@@ -17,7 +17,7 @@ class ProductCategoryAdmin(DraggableMPTTAdmin):
 
 
 class PageForm(forms.ModelForm):
-    content = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 80}, mce_attrs={'theme': 'advanced'}))
+    content = forms.CharField(widget=TinyMCE(mce_attrs={'theme': 'advanced', 'height': 480}))
 
     class Meta:
         model = Page
