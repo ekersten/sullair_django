@@ -1,8 +1,9 @@
 from django.contrib import admin
+from django import forms
 
 from mptt.admin import DraggableMPTTAdmin
 
-from jet.admin import CompactInline
+from tinymce.widgets import TinyMCE
 
 from website.models import BranchType, BranchCategory, Branch
 from website.models import CompanyCategory
@@ -15,8 +16,19 @@ class ProductCategoryAdmin(DraggableMPTTAdmin):
     prepopulated_fields = {'slug': ['name']}
 
 
+class PageForm(forms.ModelForm):
+    content = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 80}, mce_attrs={'theme': 'advanced'}))
+
+    class Meta:
+        model = Page
+        fields = '__all__'
+
+
+
 class PageAdmin(DraggableMPTTAdmin):
     prepopulated_fields = {'slug': ['title']}
+    form = PageForm
+
 
 class ProductPropertyValueInline(admin.TabularInline):
     model = ProductPropertyValue

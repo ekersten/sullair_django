@@ -6,6 +6,8 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 from filebrowser.fields import FileBrowseField
 
+from tinymce.widgets import TinyMCE
+
 from core.models import Sortable, City, Profilable, Publishable
 from tags.models import Taggable
 
@@ -112,7 +114,6 @@ class Page(Taggable, Publishable, Profilable, TimeStampedModel, MPTTModel):
     @property
     def my_url(self):
         return self.get_absolute_url()
-
 
     def get_absolute_url(self):
         print('call get_absolute_url for {0}'.format(self.full_slug))
