@@ -24,7 +24,6 @@ class PageForm(forms.ModelForm):
         fields = '__all__'
 
 
-
 class PageAdmin(DraggableMPTTAdmin):
     prepopulated_fields = {'slug': ['title']}
     form = PageForm
